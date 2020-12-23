@@ -23,7 +23,10 @@ let showedIpAddress = false;
 if (args.length === 2) {
   for (let port of args[1].split(/\,|\,\s/)) {
     const s0 = resolve(args[0], port, () => {
-      if (!showedIpAddress) console.log(s0.remoteAddress);
+      if (!showedIpAddress) {
+        console.log(s0.remoteAddress);
+        showedIpAddress = true;
+      }
       const s1 = isPortOpen(s0.remoteAddress, port);
 
       s1.setTimeout(3000);
