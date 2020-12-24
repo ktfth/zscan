@@ -1,0 +1,17 @@
+{
+  "name": "zscan",
+  "version": "1.0.0",
+  "description": "",
+  "bin": "bin/zscan",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "/media/kaique/Novo volume/zscan.git/"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
