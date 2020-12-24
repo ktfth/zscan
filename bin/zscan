@@ -2,7 +2,7 @@
 'use strict';
 const net = require('net');
 
-let timeout = 20000;
+let timeout = 10000;
 
 function resolve(host, port, cb=() => {}) {
   return net.connect({
@@ -47,21 +47,28 @@ if (args.length === 2 && /\,|\,\s/.test(args[1])) {
   let end = Math.max(1, params[1]);
 
   for (let port = start; port <= end; port += 1) {
-    const s0 = resolve(args[0], port, () => {
-      if (!showedIpAddress) {
-        console.log(s0.remoteAddress);
-        showedIpAddress = true;
-      }
-      const s1 = isPortOpen(s0.remoteAddress, port, () => {
-        s0.destroy();
-        s1.destroy();
-      });
+    const s = net.connect({
+      host: args[0],
+      port: port
     });
 
-    s0.setTimeout(timeout);
-    s0.on('timeout', () => {
-      if (!s0.destroyed) {
-        s0.destroy();
+    s.on('connect', () => {
+      console.log(`${port} open`);
+      if (!s.destroyed) {
+        s.destroy();
+      }
+    });
+
+    s.on('error', () => {
+      if (!s.destroyed) {
+        s.destroy();
+      }
+    });
+
+    s.setTimeout(timeout);
+    s.on('timeout', () => {
+      if (!s.destroyed) {
+        s.destroy();
       }
     });
   }
