@@ -27,7 +27,12 @@ if (args.length === 2 && /\-/.test(args[1])) {
   let end = Math.max(1, params[1]);
 
   for (let port = start; port <= end; port += 1) {
-    const s = net.createConnection(port, args[0]);
+    const s = new net.Socket();
+
+    s.connect({
+      port: port,
+      host: args[0]
+    });
 
     s.on('connect', () => {
       if (!showedIpAddress) {
